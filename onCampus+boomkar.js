@@ -17,6 +17,9 @@ function ready() {
     settings();
     gpa();
     showlettergrade();
+	  try {
+	  	setBannerColor();
+	  } catch {}
   } else {
     setTimeout(ready, 50);
   }
@@ -60,9 +63,9 @@ function change(){
 }
 
 $(window).bind('hashchange', function() {
-  if (ran && window.location.href == "https://sfhscollegeprep.myschoolapp.com/app/student#studentmyday/progress") {
-    change();
-  }
+	if (ran && window.location.href.indexOf("myschoolapp.com") > -1) {
+    	change();
+  	}
 });
 
 
@@ -71,7 +74,12 @@ function hashchange() {
   for (var i = 0; i < col.length; i++) {
     col[i].style.width = '22%';
   }
-  if (typeof $('#gradesContainer')[0] == 'undefined') col[0].insertAdjacentHTML('afterend', html); else $('#gradesContainer')[0].style.width = '34%';
+  console.log($("#gradesContainer")[0]);
+  if(typeof $("#gradesContainer")[0] == "undefined"){
+  	col[0].insertAdjacentHTML('afterend', html);	
+  } else{
+  	$('#gradesContainer')[0].style.width = '30%';	
+  }
   var innerTxt = $('#gradesText')[0];
   innerTxt.style.fontSize = "11.5px";
   innerTxt.innerHTML = '';
@@ -255,7 +263,7 @@ function gpa() {
   }
   if (!showGPA) return;
   var gpaHTML = `
-  <svg id="gpaSVG" viewBox="0 0 200 200" data-value="`+gpaInt+`">
+  <svg id="gpaSVG" viewBox="0 0 200 200" style="width: 40px; height: 40px; float: right; stroke-width: 8px" data-value="`+gpaInt+`">
     <text fill="`+gaugeColor+`" x="0" y="57.5%" font-family="Arial" font-size="60" id="gpaText">`+gpaInt+`</text>
     <path class="bg" stroke="#ccc" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none"/>
     <path id='meter' class="meter" stroke="`+gaugeColor+`" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none" stroke-dasharray="350" stroke-dashoffset="350"/>
@@ -278,7 +286,7 @@ function gpa() {
 
 
 var html = `
-<div class="ch col-md-4" id="gradesContainer" style='width: 34%;'>
+<div class="ch col-md-4" id="gradesContainer" style='width: 30%;'>
    <section id="grades" class="bb-tile">
       <div class="bb-tile-title" data-toggle="collapse" data-target="#gradesCollapse">
          <div class="bb-tile-header-with-content">
@@ -316,7 +324,9 @@ function content() {
   for (var i = 0; i < col.length; i++) {
     col[i].style.width = '22%';
   }
-  if (typeof $('#gradesContainer')[0] == 'undefined') col[0].insertAdjacentHTML('afterend', html); else $('#gradesContainer')[0].style.width = '34%';
+  if (typeof $('#gradesContainer')[0] == 'undefined') col[0].insertAdjacentHTML('afterend', html); else $('#gradesContainer')[0].style.width = '30%';
+  document.getElementById("performance").getElementsByClassName("ch col-md-4")[0].style.width = "25%";
+  document.getElementsByClassName("bb-tile-header ng-binding")[0].innerText = "Attendance"
   var innerText = $('#gradesText')[0];
   var h3 = $('h3');
   var grades = [];
