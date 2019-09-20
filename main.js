@@ -10,8 +10,9 @@ function main() {
 	var currentGradeInfo = getCurrentGrades();
 	var gpa = calculateGPA(currentGradeInfo);
 	log(`GPA: ${gpa}`);
-	// var storedGradeInfo = getStoredGrades(currentGradeInfo);
-	var storedGradeInfo = [{"class":"Adv Algebra w/Trig-H","grade":"5.97"},{"class":"Body of Christ","grade":"2.92"},{"class":"Chemistry-H","grade":"15.00"},{"class":"Consumer Ed","grade":"34.57"},{"class":"Eng II Amer Lit&Comp","grade":"42.62"},{"class":"PE II","grade":"31.55"},{"class":"Spanish II-H","grade":"45.59"}];
+	var storedGradeInfo = getStoredGrades(currentGradeInfo);
+	// var storedGradeInfo = [{"class":"Adv Algebra w/Trig-H","grade":"5.97"},{"class":"Body of Christ","grade":"2.92"},{"class":"Chemistry-H","grade":"15.00"},{"class":"Consumer Ed","grade":"34.57"},{"class":"Eng II Amer Lit&Comp","grade":"42.62"},{"class":"PE II","grade":"31.55"},{"class":"Spanish II-H","grade":"45.59"}];
+	// var storedGradeInfo = [{"class": "Spanish III-H","grade":"93.34"}];
 	var changes = lookForChanges(currentGradeInfo, storedGradeInfo);
 	log(`${changes.length} change(s).`);
 	updatePanel(changes);
@@ -41,6 +42,26 @@ function updatePanel(changes) {
 	if (!panel) {
 		log("Could not update panel. (Panel doesn't exist)");
 		return;
+	}
+	if (!changes) {
+		let lastChecked = localStorage.getItem("lastChecked");
+		if (!lastChecked) {
+			panel.innerHTML = `Welcome to OnCampus+!<img style="margin-bottom: 0.3rem;" width="14" height="14" src="${arrow}">`;
+		} else {
+			var currentTime = new Date().getTime();
+  			localStorage.setItem("lastChecked", currentTime);
+  			lastChecked = ((currentTime-lastChecked)/60000).toFixed(0);
+			var text = `Your grades are the same as the last time you checked`;
+			if (lastChecked < 60)
+				text += ` ${lastChecked} minute(s) ago.`;
+			else if (lastChecked % 60 === 0)
+				text += ` ${lastChecked/60} hour(s) ago.`;
+			else if (parseInt(lastChecked) === 0)
+				text += ` just seconds ago.`;
+			else
+				text += ` ${(lastChecked-lastChecked%60)/60} hour(s) and ${lastChecked%60} minute(s) ago.`;
+			panel.innerHTML = text;
+		}
 	}
 	for (var i = 0; i < changes.length; i++) {
 		let change = changes[i];
@@ -102,7 +123,7 @@ function getQuarterID() {
 }
 
 function lookForChanges(a, b) {
-	console.log("\n\n",a,b,"\n\n");
+	console.log(a,b);
 	log("Comparing arrays.");
 	let temp = [];
 	for (var i = 0; i < a.length; i++) {

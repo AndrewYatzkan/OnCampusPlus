@@ -8,12 +8,6 @@ var gpaInt;
 var sinceLastChecked;
 var changes = [];
 
-//Add Jquery to the script
-let jQuery = document.createElement("script");
-jQuery.src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js";
-jQuery.type = "text/javascript";
-document.getElementsByTagName("head")[0].appendChild(jQuery);
-
 function ready() {
   if(typeof $('.muted')[0] != 'undefined'
   && typeof $('.ch.col-md-4')[0] != 'undefined'){
@@ -31,23 +25,6 @@ function ready() {
   }
 }
 
-function bannerReady() {
-  if(typeof $('#app-style')[0] != 'undefined' && !ran){
-    if (typeof $('#app-style')[0].children[0] != 'undefined') {
-      if (typeof $('#app-style')[0].children[0].children[0] != 'undefined') {
-      setBannerColor();
-      } else {
-        setTimeout(bannerReady, 50);
-      }
-    } else {
-      setTimeout(bannerReady, 50);
-    }
-  } else {
-    setTimeout(bannerReady, 50);
-  }
-}
-
-$(document).ready(bannerReady);
 $(document).ready(() => {
   document.addEventListener("keydown", e => {
     if (e.which == 34) {
@@ -80,7 +57,6 @@ function hashchange() {
   for (var i = 0; i < col.length; i++) {
     col[i].style.width = '22%';
   }
-  console.log($("#gradesContainer")[0]);
   if(typeof $("#gradesContainer")[0] == "undefined"){
   	col[0].insertAdjacentHTML('afterend', html);	
   } else{
@@ -270,7 +246,7 @@ function gpa() {
   if (!showGPA) return;
   var gpaHTML = `
   <svg id="gpaSVG" viewBox="0 0 200 200" style="width: 40px; height: 40px; float: right; stroke-width: 8px" data-value="`+gpaInt+`">
-    <text fill="`+gaugeColor+`" x="0" y="57.5%" font-family="Arial" font-size="60" id="gpaText">`+gpaInt+`</text>
+    <text fill="`+gaugeColor+`" x="0" y="57.5%" style="font-family: Arial; font-size: 60px;" id="gpaText">`+gpaInt+`</text>
     <path class="bg" stroke="#ccc" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none"/>
     <path id='meter' class="meter" stroke="`+gaugeColor+`" d="M41 149.5a77 77 0 1 1 117.93 0" fill="none" stroke-dasharray="350" stroke-dashoffset="350"/>
   </svg>`;

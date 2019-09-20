@@ -28,7 +28,7 @@ function log(msg) {
 	if (ocpDebug) console.log(msg);
 }
 
-// Check if the URL is correct, run once right away
+// Check if the URL is correct before running
 function checkURL() {
 	log("Checking URL.");
 	// If new page is progress page
